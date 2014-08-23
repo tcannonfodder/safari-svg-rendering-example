@@ -1,0 +1,86 @@
+<html>
+<head>
+  <title>SVG rendering bugs in Safari 7.0.5</title>
+  <style type="text/css">
+    #image_1{
+      height: 100px;
+    }
+
+    #image_2{
+      height: 300px;
+    }
+  </style>
+  <script>
+    function changeImage(id, name){
+      var image = document.getElementById(id);
+      image.src = name;
+    }
+
+  </script>
+</head>
+<body>
+  <h1>SVG rendering bugs in Safari 7.0.5</h1>
+
+  <h2>Image constrained to 100px using CSS</h2>
+
+  <img id="image_1" src="desk.jpg"><br/>
+
+  <button onclick="changeImage('image_1', 'desk.jpg')" >Desk (JPG)</button>
+  <button onclick="changeImage('image_1', 'command.svg')" >Command (SVG)</button>
+  <button onclick="changeImage('image_1', 'dragon.svg')" >Dragon Curves (SVG)</button>
+  <button onclick="changeImage('image_1', 'wifi.svg')" >WiFi (SVG)</button>
+  <button onclick="changeImage('image_1', 'x.svg')" >X (SVG)</button>
+  <button onclick="changeImage('image_1', 'audio.svg')" >Audio (SVG)</button>
+  <button onclick="changeImage('image_1', 'nasa.png')" >NASA (PNG)</button>
+
+
+  <h2>Image constrained to 300px using CSS</h2>
+
+  <img id="image_2" src="nasa.png"><br/>
+
+  <button onclick="changeImage('image_2', 'desk.jpg')" >Desk (JPG)</button>
+  <button onclick="changeImage('image_2', 'command.svg')" >Command (SVG)</button>
+  <button onclick="changeImage('image_2', 'dragon.svg')" >Dragon Curves (SVG)</button>
+  <button onclick="changeImage('image_2', 'wifi.svg')" >WiFi (SVG)</button>
+  <button onclick="changeImage('image_2', 'x.svg')" >X (SVG)</button>
+  <button onclick="changeImage('image_2', 'audio.svg')" >Audio (SVG)</button>
+  <button onclick="changeImage('image_2', 'nasa.png')" >NASA (PNG)</button>
+
+
+  <h3>Steps to reproduce</h3>
+  <h4>Losing styling when going from PNG &rarr; SVG</h4>
+  <ol>
+    <li>Click "NASA (PNG)" (if the Nasa Logo is already showing, skip this step)</li>
+    <li>Click "Command (SVG)"</li>
+    <li><strong>Notice that the command symbol SVG does not respect height constraints</strong></li>
+  </ol>
+
+  <h4>Losing styling switching between different SVGs</h4>
+  <ol>
+    <li>Click on "X (SVG)"</li>
+    <li>Click on "Audio (SVG)"</li>
+    <li><strong>Notice that the SVG does not respect height constraints</strong></li>
+    <li><strong>Also notice that these steps can be reversed (selecting "Audio", then "X") and the bug still occurs</strong></li>
+  </ol>
+
+  <h4>Compounding effects of style loss when switching between SVGs</h4>
+  <ol>
+    <li>Click on "X (SVG)" for the 100px example</li>
+    <li>Click on "Audio (SVG)" for the 100px example</li>
+    <li><strong>Notice that the SVG does not respect height constraints</strong></li>
+    <li>Click on "X (SVG)" for the 300px example</li>
+    <li>Click on "Audio (SVG)" for the 300px example</li>
+    <li>Click on "X (SVG)" for the 300px example</li>
+    <li><strong>Notice that the SVG does not respect height constraints</strong></li>
+    <li><strong>Also notice the sizes in the 300px example are no longer consitent</strong></li>
+  </ol>
+
+  <h2>Additional notes</h2>
+
+  <ul>
+    <li>The original source image for the image tag does not affect whether the bug occurs.</li>
+    <li>I've also seen this bug cause SVGs to scale upwards (e.g: Instead of being 100px, the SVG is rendered at 1000px and extends beyond the bounding box of the image).</li>
+  </ul>
+
+</body>
+</html>
